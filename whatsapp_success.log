@@ -1,0 +1,24 @@
+Closure Object
+(
+    [function] => whatsapp_request
+    [parameter] => Array
+        (
+            [$url] => <required>
+            [$headers] => <required>
+            [$payload] => <required>
+            [$multipart] => <optional>
+        )
+
+)
+Closure Object
+(
+    [function] => whatsapp_request
+    [parameter] => Array
+        (
+            [$url] => <required>
+            [$headers] => <required>
+            [$payload] => <required>
+            [$multipart] => <optional>
+        )
+
+)

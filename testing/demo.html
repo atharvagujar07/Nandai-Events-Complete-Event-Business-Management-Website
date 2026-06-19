@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><?= htmlspecialchars($invoice['invoice_no']) ?></title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="invoice-page">
+  <br><br><br>
+  <article class="invoice-sheet">
+    <header class="invoice-hero">
+      <div class="logo-lockup">
+        <img src="assets/images/nandai-events-logo.jpg" alt="Nandai Events logo">
+        <div>
+        <p class="brand">Nandai Events</p>
+        <p><?= htmlspecialchars($invoice['sender_tagline'] ?? '') ?></p>
+        </div>
+      </div>
+      <div class="invoice-title">
+        <h1>INVOICE</h1>
+        <p><?= htmlspecialchars($invoice['invoice_no']) ?></p>
+      </div>
+    </header>
+
+    <section class="invoice-meta">
+      <div class="date-box invoice-from-box">
+        <p class="label">Invoice From</p>
+        <h2><?= htmlspecialchars($invoice['sender_name']) ?></h2>
+        <p><?= htmlspecialchars(date('d M Y', strtotime($invoice['invoice_date']))) ?></p>
+        <p><?= htmlspecialchars($invoice['sender_phone'] ?? '') ?></p>
+        <p><?= htmlspecialchars($invoice['sender_email'] ?? '') ?></p>
+      </div>
+      <div>
+        <p class="label">Invoice To</p>
+        <h2><?= htmlspecialchars($invoice['invoice_to']) ?></h2>
+        <p>Phone: <?= htmlspecialchars($invoice['client_phone'] ?? '') ?></p>
+        <p>Email: <?= htmlspecialchars($invoice['client_email'] ?? '') ?></p>
+        <p>Venue Address: <?= htmlspecialchars($invoice['venue_address'] ?? '') ?></p>
+        <p>Event Name: <?= htmlspecialchars($invoice['event_name'] ?? '') ?></p>
+      </div>
+    </section>
+
+    <table class="print-items">
+      <thead>
+        <tr>
+          <th>Item Description</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($items as $item): ?>
+          <tr>
+            <td><?= htmlspecialchars($item['description']) ?></td>
+            <td><?= money_value((float)$item['quantity']) ?></td>
+            <td>Rs <?= money_value((float)$item['unit_price']) ?></td>
+            <td>Rs <?= money_value((float)$item['line_total']) ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+
+    <section class="invoice-bottom">
+      <div class="account-box">
+        <h3>Account Details</h3>
+        <p><strong>Account No:</strong> <?= htmlspecialchars($invoice['account_no'] ?? '') ?></p>
+        <p><strong>Account Name:</strong> <?= htmlspecialchars($invoice['account_name'] ?? '') ?></p>
+        <p><strong>Bank Name:</strong> <?= htmlspecialchars($invoice['bank_name'] ?? '') ?></p>
+        <p><strong>IFSC Code:</strong> <?= htmlspecialchars($invoice['ifsc_code'] ?? '') ?></p>
+        <p><strong>Branch:</strong> <?= htmlspecialchars($invoice['branch_address'] ?? '') ?></p>
+      </div>
+
+      <div class="print-totals">
+        <p><span>Sub Total:</span><strong>Rs <?= money_value((float)$invoice['subtotal']) ?></strong></p>
+        <p><span>Advance:</span><strong>Rs <?= money_value((float)$invoice['advance']) ?></strong></p>
+        <p><span>Total:</span><strong>Rs <?= money_value((float)$invoice['total']) ?></strong></p>
+        <p><span>Balance:</span><strong>Rs <?= money_value((float)$invoice['balance']) ?></strong></p>
+      </div>
+    </section>
+
+    <footer>
+      <?php if (!empty($invoice['signature_path'])): ?>
+        <div class="signature-block">
+          <img src="<?= htmlspecialchars($invoice['signature_path']) ?>" alt="Authorized signature">
+          <span>Authorized Signature</span>
+        </div>
+      <?php endif; ?>
+      <strong><?= htmlspecialchars($invoice['notes'] ?: 'Thank you for your business.') ?></strong>
+    </footer>
+  </article>
+</body>
+</html>
